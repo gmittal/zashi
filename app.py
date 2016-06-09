@@ -15,6 +15,14 @@ def docToWordVector(bodyText):
         wordVector[word] = sigmoid(bodyText.count(word))*len(word)
     return wordVector
 
+def addDocVectors(v1, v2):
+    for score in v2:
+        if (v1.has_key(score)):
+            v1[score] += v2[score]
+        else:
+            v1[score] = v2[score]
+
+
 @app.route("/", methods=["GET"])
 def hello():
     return "Hello World!"
@@ -52,5 +60,7 @@ After Mrs. Clinton won Tuesday's California primary Mr. Sanders refused to quit 
 
 On Wednesday, Mr. Sanders sent out a fund-raising email asking for contributions of $2.70 and at 7 p.m. he will hold a rally outside of R.F.K. Stadium in Washington, where he will discuss his plans for getting big money out of politics and making public universities tuition-free."""
 
-    print docToWordVector(placeholder)
+    addDocVectors(userWordVector, docToWordVector(placeholder))
+    addDocVectors(userWordVector, docToWordVector(placeholder))
+    print userWordVector
     # app.run()
