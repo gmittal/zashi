@@ -1,6 +1,6 @@
-from flask import Flask
+from flask import Flask, request, send_from_directory
 import numpy as np
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 userWordVector = {}
 
@@ -25,7 +25,11 @@ def addDocVectors(v1, v2):
 
 @app.route("/", methods=["GET"])
 def hello():
-    return "Hello World!"
+    return send_from_directory('client', 'index.html')
+
+@app.route("/<staticPath:staticPath>")
+def serve(staticPath):
+    return send_from_directory('client', staticPath)
 
 @app.route("/read", methods=["POST"])
 def read():
@@ -63,4 +67,4 @@ On Wednesday, Mr. Sanders sent out a fund-raising email asking for contributions
     addDocVectors(userWordVector, docToWordVector(placeholder))
     addDocVectors(userWordVector, docToWordVector(placeholder))
     print userWordVector
-    # app.run()
+    app.run()
