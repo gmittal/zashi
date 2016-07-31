@@ -12,7 +12,7 @@ def docToWordVector(bodyText):
     words = filter(lambda a: a != '', words)
     wordVector = {}
     for word in words:
-        wordVector[word] = sigmoid(bodyText.count(word))*len(word)
+        wordVector[word] = bodyText.count(word)*len(word)
     return wordVector
 
 def addDocVectors(v1, v2):
@@ -27,9 +27,10 @@ def addDocVectors(v1, v2):
 def hello():
     return send_from_directory('client', 'index.html')
 
-@app.route("/<staticPath:staticPath>")
+@app.route("/<string:staticPath>", methods=["GET"])
 def serve(staticPath):
-    return send_from_directory('client', staticPath)
+    print staticPath
+    # return send_from_directory('client', staticPath)
 
 @app.route("/read", methods=["POST"])
 def read():
